@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sunset with Snowfall</title>
+  <style>
+    /* Background gradient */
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      overflow: hidden;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Text styling */
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    .text {
+      font-family: 'Palatino', 'Palatino Linotype', 'Book Antiqua', serif; /* Menggunakan font Palatino */
+      font-size: 3rem;
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      opacity: 0; /* Teks awalnya tidak terlihat */
+      animation: fadeInOut 8s ease-in-out infinite; /* Durasi animasi diubah menjadi 8s */
+      text-align: justify; /* Format justify */
+      max-width: 80%; /* Membatasi lebar teks agar justify bekerja */
+      margin: 0 auto; /* Pusatkan teks */
+    }
+
+    @keyframes fadeInOut {
+      0%, 100% {
+        opacity: 0; /* Teks tidak terlihat di awal dan akhir */
+      }
+      25% {
+        opacity: 1; /* Teks terlihat */
+      }
+      75% {
+        opacity: 1; /* Teks tetap terlihat */
+      }
+    }
+
+    /* Snowfall effect */
+    .snow {
+      position: absolute;
+      top: -10%;
+      left: 0;
+      width: 100%;
+      height: 110%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .snowflake {
+      position: absolute;
+      top: -10%;
+      width: 10px;
+      height: 10px;
+      background: white;
+      border-radius: 50%;
+      filter: blur(1px);
+      animation: snowfall linear infinite;
+    }
+
+    @keyframes snowfall {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(110vh); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="text" id="text">Finally...</div> <!-- Teks awal -->
+  </div>
+  <div class="snow" id="snow"></div>
+  <audio autoplay loop>
+    <source src="somebody-pleasure.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    // JavaScript to generate snowflakes
+    const snowContainer = document.getElementById('snow');
+
+    function createSnowflake() {
+      const snowflake = document.createElement('div');
+      snowflake.className = 'snowflake';
+      snowflake.style.left = `${Math.random() * 100}vw`;
+      snowflake.style.animationDuration = `${Math.random() * 3 + 2}s`;
+      snowflake.style.opacity = Math.random();
+      snowflake.style.width = `${Math.random() * 10 + 5}px`;
+      snowflake.style.height = snowflake.style.width;
+      snowContainer.appendChild(snowflake);
+
+      // Remove snowflake after it falls
+      setTimeout(() => {
+        snowflake.remove();
+      }, 5000);
+    }
+
+    // Generate snowflakes every 100ms
+    setInterval(createSnowflake, 100);
+
+    // JavaScript to handle text change
+    const textElement = document.getElementById('text');
+    const texts = [
+      "Finally...",
+      "Maybe It's Time",
+      "There Are No Special Words, Just....",
+      "I Hope Everything Goes Well For You",
+      "Let's Meet Again As Better Person, If The World Allow It",
+      "A Good Beginning Deserves a Good Ending, Right?",
+      "The Sunset Is Beautiful, Isn't?"
+    ];
+    let index = 0;
+
+    function changeText() {
+      textElement.textContent = texts[index];
+      index = (index + 1) % texts.length; // Berganti antara teks
+    }
+
+    // Change text every 4 seconds
+    setInterval(changeText, 4000); // Durasi diubah menjadi 4 detik
+  </script>
+</body>
+</html>
