@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sunset with Snowfall</title>
+  <title>Sunset with Music</title>
   <style>
     /* Background gradient */
     body {
@@ -14,12 +14,53 @@
       background-size: 400% 400%;
       animation: gradientBG 15s ease infinite;
       overflow: hidden;
+      font-family: 'Palatino', 'Palatino Linotype', 'Book Antiqua', serif;
     }
 
     @keyframes gradientBG {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
+    }
+
+    /* Permission box */
+    #permissionBox {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      z-index: 10;
+    }
+
+    #permissionBox h1 {
+      margin: 0;
+      font-size: 2rem;
+      color: #333;
+    }
+
+    #permissionBox p {
+      margin: 10px 0 20px;
+      font-size: 1rem;
+      color: #666;
+    }
+
+    #permissionBox button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #permissionBox button:hover {
+      background-color: #0056b3;
     }
 
     /* Text styling */
@@ -33,7 +74,6 @@
     }
 
     .text {
-      font-family: 'Palatino', 'Palatino Linotype', 'Book Antiqua', serif; /* Menggunakan font Palatino */
       font-size: 3rem;
       color: #fff;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -85,15 +125,51 @@
   </style>
 </head>
 <body>
+  <!-- Permission box -->
+  <div id="permissionBox">
+    <h1>Izinkan Musik?</h1>
+    <p>Klik "Izinkan" untuk memutar musik secara otomatis.</p>
+    <button id="allowButton">Izinkan</button>
+  </div>
+
+  <!-- Container for text -->
   <div class="container">
     <div class="text" id="text">Finally...</div> <!-- Teks awal -->
   </div>
+
+  <!-- Snowfall effect -->
   <div class="snow" id="snow"></div>
-  <audio autoplay>
-    <source src = "audio/somebody-pleasure.mp3" type="audio/mp3">
+
+  <!-- Background music -->
+  <audio id="backgroundMusic" loop>
+    <source src="audio/somebody-pleasure.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
   </audio>
 
   <script>
+    // Permission box and audio
+    const permissionBox = document.getElementById('permissionBox');
+    const allowButton = document.getElementById('allowButton');
+    const backgroundMusic = document.getElementById('backgroundMusic');
+
+    // Sembunyikan permission box setelah izin diberikan
+    function hidePermissionBox() {
+      permissionBox.style.display = 'none';
+    }
+
+    // Memutar musik setelah izin diberikan
+    allowButton.addEventListener('click', () => {
+      backgroundMusic.play()
+        .then(() => {
+          console.log('Musik berhasil diputar.');
+          hidePermissionBox();
+        })
+        .catch((error) => {
+          console.error('Gagal memutar musik:', error);
+          alert('Gagal memutar musik. Pastikan Anda mengizinkan audio.');
+        });
+    });
+
     // JavaScript to generate snowflakes
     const snowContainer = document.getElementById('snow');
 
