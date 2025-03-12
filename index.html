@@ -122,6 +122,41 @@
       0% { transform: translateY(0); }
       100% { transform: translateY(110vh); }
     }
+
+    /* Penutup styling */
+    #closing {
+      display: none; /* Awalnya disembunyikan */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 2;
+    }
+
+    #closing h2 {
+      font-size: 2.5rem;
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      animation: slideIn 2s ease-out;
+    }
+
+    #closing p {
+      font-size: 2rem;
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      animation: fadeIn 3s ease-in;
+    }
+
+    @keyframes slideIn {
+      0% { transform: translateY(-100%); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
   </style>
 </head>
 <body>
@@ -135,6 +170,12 @@
   <!-- Container for text -->
   <div class="container">
     <div class="text" id="text">Finally...</div> <!-- Teks awal -->
+  </div>
+
+  <!-- Penutup -->
+  <div id="closing">
+    <h2>Thank you for taking the time for this, take care of yourself.</h2>
+    <p>Addien Rosyda Nabila Yasin</p>
   </div>
 
   <!-- Snowfall effect -->
@@ -151,6 +192,7 @@
     const permissionBox = document.getElementById('permissionBox');
     const allowButton = document.getElementById('allowButton');
     const backgroundMusic = document.getElementById('backgroundMusic');
+    const closing = document.getElementById('closing');
 
     // Sembunyikan permission box setelah izin diberikan
     function hidePermissionBox() {
@@ -206,12 +248,18 @@
     let index = 0;
 
     function changeText() {
-      textElement.textContent = texts[index];
-      index = (index + 1) % texts.length; // Berganti antara teks
+      if (index < texts.length) {
+        textElement.textContent = texts[index];
+        index++;
+      } else {
+        // Tampilkan penutup setelah semua teks selesai
+        textElement.style.display = 'none';
+        closing.style.display = 'block';
+      }
     }
 
     // Change text every 4 seconds
-    setInterval(changeText, 4000); // Durasi diubah menjadi 4 detik
+    const textInterval = setInterval(changeText, 4000); // Durasi diubah menjadi 4 detik
   </script>
 </body>
 </html>
